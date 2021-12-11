@@ -11,10 +11,10 @@ class Reply extends Model
     }
 
     public function like(){
-    	retirn $this->hasMany(Like::class);
+    	return $this->hasMany(Like::class);
     }
 
     public function user(){
-    	$this->belongsTo(user::class);
+    	return $this->belongsTo(user::class);
     }
 }

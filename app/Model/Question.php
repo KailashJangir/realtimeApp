@@ -12,10 +12,10 @@ class Question extends Model
     }
 
     public function replies(){
-    	retirn $this->hasMany(Reply::class);
+    	return $this->hasMany(Reply::class);
     }
 
     public function category(){
-    	$this->belongsTo(Category::class);
+    	return $this->belongsTo(Category::class);
     }
 }
