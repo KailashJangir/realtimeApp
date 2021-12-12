@@ -3,9 +3,14 @@
 namespace App\Model;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Model\Like;
+use App\Model\Question;
+use App\User;
 
 class Reply extends Model
 {
+	protected $guarded = [];
+
     public function question(){
     	return $this->belongsTo(Question::class);
     }
@@ -15,6 +20,6 @@ class Reply extends Model
     }
 
     public function user(){
-    	return $this->belongsTo(user::class);
+    	return $this->belongsTo(User::class);
     }
 }

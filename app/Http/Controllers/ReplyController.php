@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Model\Reply;
 use Illuminate\Http\Request;
+use App\Model\Question;
+use Symfony\Component\HttpFoundation\Response;
+use App\Http\Resources\ReplyResource;
 
 class ReplyController extends Controller
 {
@@ -14,7 +17,7 @@ class ReplyController extends Controller
      */
     public function index()
     {
-        //
+        return ReplyResource::collection(Reply::latest()->get());
     }
 
     /**
@@ -35,7 +38,8 @@ class ReplyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Reply::create($request->all());
+        return response('Created', Response::HTTP_CREATED);
     }
 
     /**
@@ -44,9 +48,10 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function show(Reply $reply)
+    public function show(Reply $reply,$rid)
     {
-        //
+        $reply = Reply::findorfail($rid);
+        return  new ReplyResource($reply);
     }
 
     /**
@@ -67,9 +72,11 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply)
+    public function update(Request $request, Reply $reply,$id)
     {
-        //
+        $reply = Reply::findorfail($id);
+        $reply->update($request->all());
+        return response("Updated", Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -78,8 +85,9 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reply $reply)
+    public function destroy(Reply $reply,$id)
     {
-        //
+        $reply = Reply::where('id',$id)->delete();
+        return response("Deleted", Response::HTTP_NO_CONTENT);
     }
 }
