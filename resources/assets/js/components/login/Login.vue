@@ -1,5 +1,5 @@
 <template>
-  <v-form v-model="valid">
+  <v-form @submit.prevent="login">
     <v-container>
       <v-row>
         <v-col
@@ -41,6 +41,11 @@
 					email:null,
 					password:null
 				}
+			}
+		},
+		methods : {
+			login() {
+				User.login(this.form)
 			}
 		}
 	}
