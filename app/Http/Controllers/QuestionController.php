@@ -10,6 +10,23 @@ use Symfony\Component\HttpFoundation\Response;
 
 class QuestionController extends Controller
 {
+
+    /**
+     * Create a new AuthController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('JWT', ['only' => ['show', 'index']]);
+    }
+
+    /**
+     * Get a JWT via given credentials.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+
     public function index()
     {
         return QuestionResource::collection(Question::latest()->get());
