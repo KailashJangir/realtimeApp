@@ -13,8 +13,10 @@ class Question extends Model
 		return 'slug';
 	}*/
 
-	//protected $fillable = ["title", "slug", "body", "category_id", "user_id"];
-	protected $guarded = [];
+	protected $fillable = ["title", "slug", "body", "category_id", "user_id"];
+	//protected $guarded = [];
+
+    protected $with = ['replies'];
 
     public function user(){
     	return $this->belongsTo(User::class);
@@ -28,6 +30,6 @@ class Question extends Model
     	return $this->belongsTo(Category::class);
     }
     public function getPathAttribute(){
-    	return asset("api/question/$this->slug");
+    	return "/question/$this->id";
     }
 }

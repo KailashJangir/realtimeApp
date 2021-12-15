@@ -11,7 +11,6 @@ window.Vue = require('vue');
 
 import Vue from 'vue';
 import Vuetify from 'vuetify';
-
 Vue.use(Vuetify);
 
 export default new Vuetify({ })
@@ -26,7 +25,7 @@ import router from './Router/router.js';
 import User from './Helpers/User.js';
 window.User = User; 
 
-console.log(User.id());
+window.EventBus = new Vue(); 
 
 const app = new Vue({
     el: '#app',

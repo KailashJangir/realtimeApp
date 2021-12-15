@@ -13,6 +13,7 @@ class 	User {
 		const username = res.data.user;
 		if(Token.isValid(access_token)){
 			AppStorage.store(username, access_token);
+			window.location = "/forum"
 		}
 	}
 
@@ -29,7 +30,8 @@ class 	User {
 	}
 
 	logout(){
-		AppStorage.clear()
+		AppStorage.clear();
+		window.location = '/forum';	
 	}
 
 	name(){
@@ -43,6 +45,14 @@ class 	User {
 			const payload = Token.payload(AppStorage.getToken());
 			return payload.sub;
 		}
+	}
+
+	own(id){
+		return this.id() == id;
+	}
+
+	admin(){
+		return this.id() == 11
 	}
 }
 export default User = new User();

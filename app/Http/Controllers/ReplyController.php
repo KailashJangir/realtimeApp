@@ -15,9 +15,9 @@ class ReplyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Question $question)
     {
-        return ReplyResource::collection(Reply::latest()->get());
+        return  ReplyResource::collection($question->replies);
     }
 
     /**
@@ -36,10 +36,15 @@ class ReplyController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        Reply::create($request->all());
-        return response('Created', Response::HTTP_CREATED);
+    public function store(Question $question, Request $request)
+    { 
+        $reply = new Reply();
+        $reply->user_id = auth()->id();
+        $reply->question_id = $question->id;
+        $reply->body = $request->body;
+        $reply->save();
+        //$reply = $question->replies()->create($request->all());
+        return response(['reply' => new ReplyResource($reply)], Response::HTTP_CREATED);
     }
 
     /**
@@ -50,7 +55,6 @@ class ReplyController extends Controller
      */
     public function show(Reply $reply,$rid)
     {
-        $reply = Reply::findorfail($rid);
         return  new ReplyResource($reply);
     }
 
@@ -72,11 +76,10 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reply $reply,$id)
+    public function update(Request $request, $qid,  Reply $reply)
     {
-        $reply = Reply::findorfail($id);
         $reply->update($request->all());
-        return response("Updated", Response::HTTP_ACCEPTED);
+        return response(new ReplyResource($reply), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -85,9 +88,9 @@ class ReplyController extends Controller
      * @param  \App\Model\Reply  $reply
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Reply $reply,$id)
+    public function destroy(Question $question, Reply $reply)
     {
-        $reply = Reply::where('id',$id)->delete();
-        return response("Deleted", Response::HTTP_NO_CONTENT);
+        $reply->delete();
+        return response(new ReplyResource($reply), Response::HTTP_NO_CONTENT);
     }
 }

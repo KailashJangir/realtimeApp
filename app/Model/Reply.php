@@ -9,6 +9,14 @@ use App\User;
 
 class Reply extends Model
 {
+    /*protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($relpy) {
+            $reply->user_id = auth()->id();
+        });
+    }*/
 	protected $guarded = [];
 
     public function question(){

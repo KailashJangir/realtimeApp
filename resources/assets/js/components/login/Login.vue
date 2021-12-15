@@ -28,6 +28,8 @@
           md="4"
         >
         <v-btn color="green" type="submit">Login</v-btn>
+
+        <router-link to="/signup"><v-btn color="green">SignUp</v-btn></router-link>
         </v-col>
       </v-row>
     </v-container>
@@ -43,9 +45,17 @@
 				}
 			}
 		},
+
+		created() {
+			if(User.loggedIn()){
+				this$router.push({name:'forum'})
+			}
+		},
+
 		methods : {
 			login() {
 				User.login(this.form)
+				//this.$router.push({name:'forum'});
 			}
 		}
 	}

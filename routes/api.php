@@ -17,6 +17,7 @@ Route::group([
 ], function () {
 
     Route::post('login', 'AuthController@login');
+    Route::post('signup', 'AuthController@signup');
     Route::post('logout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
@@ -26,19 +27,20 @@ Route::group([
 
 
 Route::get('/question' , 'QuestionController@index');
-Route::get('/question/{id}' , 'QuestionController@show');
-Route::delete('/question/{id}' , 'QuestionController@destroy');
+Route::get('/question/{question}' , 'QuestionController@show');
+Route::delete('/question/{question}' , 'QuestionController@destroy');
 Route::post('/question' , 'QuestionController@store');
-Route::patch('/question/{id}' , 'QuestionController@update');
+Route::patch('/question/{question}' , 'QuestionController@update');
 Route::get('/category' , 'CategoryController@index');
+Route::get('/category/{category}' , 'CategoryController@show');
 Route::post('/category' , 'CategoryController@store');
-Route::delete('/category' , 'CategoryController@destroy');
-Route::patch('/category/{id}' , 'CategoryController@update');
-Route::get('/question/{id}/reply' , 'ReplyController@index');
-Route::get('/question/reply/{rid}' , 'ReplyController@show');
-Route::post('/question/reply' , 'ReplyController@store');
-Route::delete('/question/reply/{id}' , 'ReplyController@destroy');
-Route::patch('/question/reply/{id}' , 'ReplyController@update');
+Route::delete('/category/{category}' , 'CategoryController@destroy');
+Route::patch('/category/{category}' , 'CategoryController@update');
+Route::get('/question/{question}/reply' , 'ReplyController@index');
+Route::get('/question/{question}/reply' , 'ReplyController@show');
+Route::post('/question/{question}/reply' , 'ReplyController@store');
+Route::delete('/question/{question}/reply/{reply}' , 'ReplyController@destroy');
+Route::patch('/question/{question}/reply/{reply}' , 'ReplyController@update');
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

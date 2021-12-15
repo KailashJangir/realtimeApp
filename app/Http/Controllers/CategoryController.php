@@ -9,6 +9,10 @@ use App\Http\Resources\CategoryResource;
 
 class CategoryController extends Controller
 {
+    public function __construct()
+    {
+        //$this->middleware('JWT', ['except' => ['show', 'index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -42,7 +46,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->slug = str_slug($request->name);
         $category->save();
-        return response('Created', Response::HTTP_CREATED);
+        return response(new CategoryResource($category), Response::HTTP_CREATED);
     }
 
     /**
@@ -51,9 +55,8 @@ class CategoryController extends Controller
      * @param  \App\Model\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function show(Category $category,$id)
+    public function show(Category $category)
     {
-        $category = Category::findorfail($rid);
         return  new CategoryResource($category);
     }
 
@@ -75,11 +78,10 @@ class CategoryController extends Controller
      * @param  \App\Model\Category  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category,$id)
+    public function update(Request $request, Category $category)
     {
-        $category = Category::findorfail($id);
         $category->update(['name'=> $request->name, 'slug' => str_slug($request->name)]);
-        return response("Updated", Response::HTTP_ACCEPTED);
+        return response(new CategoryResource($category), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -91,6 +93,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response(new CategoryResource($category), Response::HTTP_NO_CONTENT);
     }
 }

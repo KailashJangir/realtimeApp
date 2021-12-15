@@ -18,7 +18,7 @@ class QuestionController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('JWT', ['only' => ['show', 'index']]);
+//$this->middleware('JWT', ['except' => ['show', 'index']]);
     }
 
     /**
@@ -35,29 +35,26 @@ class QuestionController extends Controller
 
     public function store(Request $request)
     {
-        //auth()->user()->question()->create($request->all());
-        Question::create($request->all());
-        return response("Created", Response::HTTP_CREATED);
+        $request['slug'] = str_slug($request->title);
+        $question= auth()->user()->question()->create($request->all());
+        return  response(new QuestionResource($question),Response::HTTP_ACCEPTED);
     }
 
-    public function show(Question $question, $id)
+    public function show(Question $question)
     {
-        $question = Question::findorfail($id);
         return  new QuestionResource($question);
     }
 
     
-    public function update(Request $request, Question $question,$id)
+    public function update(Request $request,Question $question)
     {
-        $question = Question::findorfail($id);
         $question->update($request->all());
-        return response("Updated", Response::HTTP_ACCEPTED);
+        return response(new QuestionResource($question), Response::HTTP_ACCEPTED);
     }
 
-    public function destroy(Question $question,$id)
+    public function destroy(Question $question)
     {
-        $replies = Reply::where('question_id',$id)->delete();
-        $question = Question::where('id',$id)->delete();
-        return response("Deleted"); 
+        $question->delete();
+        return new QuestionResource($question);
     }
 }
