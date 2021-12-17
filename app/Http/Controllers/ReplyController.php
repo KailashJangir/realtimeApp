@@ -7,9 +7,14 @@ use Illuminate\Http\Request;
 use App\Model\Question;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\ReplyResource;
-
+use App\Notifications\NewReplyNotification;
+use App\Events\DeleteReplyEvent;
 class ReplyController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('JWT', ['except' => ['show', 'index']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -43,6 +48,10 @@ class ReplyController extends Controller
         $reply->question_id = $question->id;
         $reply->body = $request->body;
         $reply->save();
+        $user = $question->user;
+        if($reply->user_id !== $reply->question_id){
+            $user->notify(new NewReplyNotification($reply));
+        }
         //$reply = $question->replies()->create($request->all());
         return response(['reply' => new ReplyResource($reply)], Response::HTTP_CREATED);
     }
@@ -91,6 +100,7 @@ class ReplyController extends Controller
     public function destroy(Question $question, Reply $reply)
     {
         $reply->delete();
+        broadcast(new DeleteReplyEvent($reply->id))->toOthers();
         return response(new ReplyResource($reply), Response::HTTP_NO_CONTENT);
     }
 }

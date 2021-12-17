@@ -41,6 +41,11 @@ Route::get('/question/{question}/reply' , 'ReplyController@show');
 Route::post('/question/{question}/reply' , 'ReplyController@store');
 Route::delete('/question/{question}/reply/{reply}' , 'ReplyController@destroy');
 Route::patch('/question/{question}/reply/{reply}' , 'ReplyController@update');
+Route::post('/like/{reply}' , 'LikeController@likeIt');
+Route::delete('/like/{reply}' , 'LikeController@unLikeIt');
+Route::post('/notifications' , 'NotificationController@index');
+Route::post('/markAsRead' , 'NotificationController@markAsRead');
+
 
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

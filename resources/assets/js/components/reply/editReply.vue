@@ -23,13 +23,13 @@
 		props:['reply'],
 
 		methods:{
-			cancel(){
-				EventBus.$emit('cancelEditing')
+			cancel(reply){
+				EventBus.$emit('cancelEditing',reply)
 			},
 
 			update(){
 				axios.patch(`/api/question/${this.reply.question_id}/reply/${this.reply.id}`, {body:this.reply.reply})
-				.then(res => this.cancel())
+				.then(res => this.cancel(this.reply.reply))
 			}
 		}
 

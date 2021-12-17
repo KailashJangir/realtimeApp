@@ -20,8 +20,11 @@
         "vue": "^2.5.7"
     },
     "dependencies": {
+        "laravel-echo": "^1.11.3",
+        "pusher-js": "^7.0.3",
         "vue-router": "^3.5.3",
         "vue-simplemde": "^2.0.0",
-        "vuetify": "^2.6.1"
+        "vuetify": "^2.6.1",
+        "watch": "^1.0.2"
     }
 }

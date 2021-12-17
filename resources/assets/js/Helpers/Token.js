@@ -10,8 +10,12 @@ class Token {
   }
 
   payload(token){
-  	const payload = token.split('.')[1];
-  	return this.decode(payload);
+    if(token){
+    	const payload = token.split('.')[1];
+    	return this.decode(payload);
+    }else{
+      return false
+    }
   }
 
 

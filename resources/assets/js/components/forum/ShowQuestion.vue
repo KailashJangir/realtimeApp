@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-contianer fluid>
+    <v-container fluid>
       <v-card-title>
       	<div>	
       		<div class="headline">
@@ -32,7 +32,7 @@
       </v-btn>
       </v-card-actions>
 
-    </v-contianer>
+    </v-container>
     <v-card-text>
       {{data.body}}
     </v-card-text>
